@@ -37,9 +37,3 @@ def init_web3(node_url):
 
 def initialize_erasure_account(w3, private_key):
     return w3.eth.account.from_key(private_key)
-
-
-setup_logging()
-w3 = init_web3(node_url=ERASURE_NODE_URL)
-erasure_account = initialize_erasure_account(
-    w3=w3, private_key=ERASURE_ACCOUNT_PRIVATE_KEY)

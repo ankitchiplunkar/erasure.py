@@ -8,8 +8,8 @@ def get_abi(contract):
         return json.load(json_file)
 
 
-def initialize_contract(w3, version, contract_dict, contract_name):
+def initialize_contract(w3, contract_dict, contract_name):
     return w3.eth.contract(
-        address=contract_dict[version][contract_name],
+        address=contract_dict[contract_name],
         abi=get_abi(contract_name)
     )

@@ -1,5 +1,3 @@
-from collections import namedtuple
-
 MAINNET_CONTRACTS = {
     "v1.0.0": {
         "FeedFactory": "0x1f09dDa453941c2536b9dE8c4382807D1FC603A9"
