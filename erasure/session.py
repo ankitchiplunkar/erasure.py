@@ -5,7 +5,7 @@ from erasure.settings import (
     LOG_STDOUT,
     LOG_FORMAT,
     LOG_LEVEL,
-    NODE_URL,
+    ERASURE_NODE_URL,
     ERASURE_ACCOUNT_PRIVATE_KEY,
 )
 
@@ -40,6 +40,6 @@ def initialize_erasure_account(w3, private_key):
 
 
 setup_logging()
-w3 = init_web3(node_url=NODE_URL)
+w3 = init_web3(node_url=ERASURE_NODE_URL)
 erasure_account = initialize_erasure_account(
     w3=w3, private_key=ERASURE_ACCOUNT_PRIVATE_KEY)
