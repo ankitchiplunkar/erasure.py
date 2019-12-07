@@ -10,12 +10,12 @@ from erasure.settings import (
 from erasure.erasure_client import ErasureClient
 
 
-mode = "test"
+mode = "rinkeby"
 version = "v1.0.0"
 setup_logging()
 w3 = init_web3(node_url=ERASURE_NODE_URL)
+erasure_client = ErasureClient(w3, mode, version)
 
 
-def test_init_erasure_client():
-    erasure_client = ErasureClient(w3, mode, version)
-    pass
+def test_create_feed():
+    erasure_client.create_feed()
