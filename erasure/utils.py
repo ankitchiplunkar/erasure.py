@@ -1,4 +1,5 @@
 import json
+import requests
 from os import path
 
 
@@ -13,3 +14,9 @@ def initialize_contract(w3, contract_dict, contract_name):
         address=contract_dict[contract_name],
         abi=get_abi(contract_name)
     )
+
+
+def get_gas_price(mode='average'):
+    url = "https://ethgasstation.info/json/ethgasAPI.json"
+    result = requests.get(url)
+    return result.json()[mode]/10
