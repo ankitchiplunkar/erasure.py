@@ -75,5 +75,6 @@ class ErasureClient():
         logger.info("Waiting for transaction to be mined ...")
         receipt = self.w3.eth.waitForTransactionReceipt(tx_hash)
         instance_created = self.feed_factory.events.InstanceCreated().processReceipt(receipt)
-        logger.info(f"Feed created at address {instance_created[0]['args']['instance']}")
+        logger.info(
+            f"Feed created at address {instance_created[0]['args']['instance']}")
         return receipt

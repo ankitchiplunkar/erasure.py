@@ -6,7 +6,6 @@ from erasure.utils import (
 logger = logging.info(__name__)
 
 
-
 class Feed():
     """
     Feed class to interact with the erasure feed

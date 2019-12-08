@@ -5,8 +5,6 @@ from erasure.settings import (
     LOG_STDOUT,
     LOG_FORMAT,
     LOG_LEVEL,
-    ERASURE_NODE_URL,
-    ERASURE_ACCOUNT_PRIVATE_KEY,
 )
 
 

@@ -11,4 +11,3 @@ RINKEBY_CONTRACTS = {
         "ErasurePosts": "0x57EB544cCA126D356FFe19D732A79Db494ba09b1"
     }
 }
-
