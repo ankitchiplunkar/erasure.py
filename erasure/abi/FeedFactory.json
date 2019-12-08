@@ -1,11 +1,101 @@
 [
     {
-        "constant": true,
-        "inputs": [],
-        "name": "getInstanceType",
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "instanceRegistry",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "templateContract",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "instance",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "creator",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes",
+                "name": "callData",
+                "type": "bytes"
+            }
+        ],
+        "name": "InstanceCreated",
+        "type": "event"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "internalType": "bytes",
+                "name": "callData",
+                "type": "bytes"
+            }
+        ],
+        "name": "create",
         "outputs": [
             {
-                "name": "instanceType",
+                "internalType": "address",
+                "name": "instance",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "internalType": "bytes",
+                "name": "callData",
+                "type": "bytes"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "salt",
+                "type": "bytes32"
+            }
+        ],
+        "name": "createSalty",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "instance",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "getInitSelector",
+        "outputs": [
+            {
+                "internalType": "bytes4",
+                "name": "initSelector",
                 "type": "bytes4"
             }
         ],
@@ -15,105 +105,19 @@
     },
     {
         "constant": true,
-        "inputs": [],
-        "name": "getTemplate",
-        "outputs": [
-            {
-                "name": "template",
-                "type": "address"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
         "inputs": [
             {
+                "internalType": "uint256",
+                "name": "index",
+                "type": "uint256"
+            }
+        ],
+        "name": "getInstance",
+        "outputs": [
+            {
+                "internalType": "address",
                 "name": "instance",
                 "type": "address"
-            }
-        ],
-        "name": "getInstanceCreator",
-        "outputs": [
-            {
-                "name": "creator",
-                "type": "address"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "initdata",
-                "type": "bytes"
-            }
-        ],
-        "name": "createEncoded",
-        "outputs": [
-            {
-                "name": "instance",
-                "type": "address"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "operator",
-                "type": "address"
-            },
-            {
-                "name": "postRegistry",
-                "type": "address"
-            },
-            {
-                "name": "feedStaticMetadata",
-                "type": "bytes"
-            }
-        ],
-        "name": "createExplicit",
-        "outputs": [
-            {
-                "name": "instance",
-                "type": "address"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "getInstanceRegistry",
-        "outputs": [
-            {
-                "name": "instanceRegistry",
-                "type": "address"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "getInitdataABI",
-        "outputs": [
-            {
-                "name": "initdataABI",
-                "type": "string"
             }
         ],
         "payable": false,
@@ -126,6 +130,7 @@
         "name": "getInstanceCount",
         "outputs": [
             {
+                "internalType": "uint256",
                 "name": "count",
                 "type": "uint256"
             }
@@ -138,19 +143,17 @@
         "constant": true,
         "inputs": [
             {
-                "name": "startIndex",
-                "type": "uint256"
-            },
-            {
-                "name": "endIndex",
-                "type": "uint256"
+                "internalType": "address",
+                "name": "instance",
+                "type": "address"
             }
         ],
-        "name": "getPaginatedInstances",
+        "name": "getInstanceCreator",
         "outputs": [
             {
-                "name": "instances",
-                "type": "address[]"
+                "internalType": "address",
+                "name": "creator",
+                "type": "address"
             }
         ],
         "payable": false,
@@ -158,22 +161,33 @@
         "type": "function"
     },
     {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "callData",
-                "type": "bytes"
-            }
-        ],
-        "name": "create",
+        "constant": true,
+        "inputs": [],
+        "name": "getInstanceRegistry",
         "outputs": [
             {
-                "name": "instance",
+                "internalType": "address",
+                "name": "instanceRegistry",
                 "type": "address"
             }
         ],
         "payable": false,
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "getInstanceType",
+        "outputs": [
+            {
+                "internalType": "bytes4",
+                "name": "instanceType",
+                "type": "bytes4"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -182,6 +196,7 @@
         "name": "getInstances",
         "outputs": [
             {
+                "internalType": "address[]",
                 "name": "instances",
                 "type": "address[]"
             }
@@ -194,14 +209,16 @@
         "constant": true,
         "inputs": [
             {
-                "name": "index",
-                "type": "uint256"
+                "internalType": "bytes",
+                "name": "callData",
+                "type": "bytes"
             }
         ],
-        "name": "getInstance",
+        "name": "getNextInstance",
         "outputs": [
             {
-                "name": "instance",
+                "internalType": "address",
+                "name": "target",
                 "type": "address"
             }
         ],
@@ -210,58 +227,70 @@
         "type": "function"
     },
     {
+        "constant": true,
         "inputs": [
             {
-                "name": "instanceRegistry",
+                "internalType": "uint256",
+                "name": "startIndex",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "endIndex",
+                "type": "uint256"
+            }
+        ],
+        "name": "getPaginatedInstances",
+        "outputs": [
+            {
+                "internalType": "address[]",
+                "name": "instances",
+                "type": "address[]"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "internalType": "bytes",
+                "name": "callData",
+                "type": "bytes"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "salt",
+                "type": "bytes32"
+            }
+        ],
+        "name": "getSaltyInstance",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "target",
                 "type": "address"
             }
         ],
         "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "constructor"
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        "anonymous": false,
-        "inputs": [
+        "constant": true,
+        "inputs": [],
+        "name": "getTemplate",
+        "outputs": [
             {
-                "indexed": false,
-                "name": "operator",
+                "internalType": "address",
+                "name": "template",
                 "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "postRegistry",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "feedStaticMetadata",
-                "type": "bytes"
             }
         ],
-        "name": "ExplicitInitData",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "name": "instance",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "name": "creator",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "callData",
-                "type": "bytes"
-            }
-        ],
-        "name": "InstanceCreated",
-        "type": "event"
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
     }
 ]
