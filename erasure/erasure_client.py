@@ -42,23 +42,24 @@ class ErasureClient():
             w3=self.w3,
             contract_address=self.contract_dict["FeedFactory"],
             contract_name="FeedFactory")
-        self.feed = initialize_contract(
+        self.feed_template = initialize_contract(
             w3=self.w3,
             contract_address=None,
             contract_name="Feed")
 
-    def create_feed(self, proofhash='', metadata=''):
-        # getting the gas price
+    def create_feed(self, proofhash='0x', metadata='0x'):
         logger.info(f"Creating erasure with protocol version {self.version}")
         logger.info(
             f"Creating erasure feed for the user {self.account.address}")
         logger.info(
             f"Creating erasure feed at the operator {self.contract_dict['ErasurePosts']}")
+        # getting the gas price
         gas_price = self.w3.toWei(get_gas_price(), 'gwei')
-        initialize_feed_call_data = self.feed.encodeABI('initialize', args=(
+        # get call data to create feed
+        initialize_feed_call_data = self.feed_template.encodeABI('initialize', args=(
             self.contract_dict['ErasurePosts'],
-            self.w3.toBytes(text=proofhash),
-            self.w3.toBytes(text=metadata)))
+            self.w3.toBytes(hexstr=proofhash),
+            self.w3.toBytes(hexstr=metadata)))
         create_feed_txn = self.feed_factory.functions.create(
             self.w3.toBytes(hexstr=initialize_feed_call_data)
         ).buildTransaction({
@@ -74,5 +75,6 @@ class ErasureClient():
         logger.info("Waiting for transaction to be mined ...")
         receipt = self.w3.eth.waitForTransactionReceipt(tx_hash)
         instance_created = self.feed_factory.events.InstanceCreated().processReceipt(receipt)
-        logger.info(f"Feed created at address {instance_created[0]['args']['instance']}")
+        logger.info(
+            f"Feed created at address {instance_created[0]['args']['instance']}")
         return receipt
