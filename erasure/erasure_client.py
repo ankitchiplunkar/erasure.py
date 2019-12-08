@@ -50,23 +50,29 @@ class ErasureClient():
     def create_feed(self, proofhash='', metadata=''):
         # getting the gas price
         logger.info(f"Creating erasure with protocol version {self.version}")
-        logger.info(f"Creating erasure feed for the user {self.account.address}")
-        logger.info(f"Creating erasure feed at the operator {self.contract_dict['ErasurePosts']}")
+        logger.info(
+            f"Creating erasure feed for the user {self.account.address}")
+        logger.info(
+            f"Creating erasure feed at the operator {self.contract_dict['ErasurePosts']}")
         gas_price = self.w3.toWei(get_gas_price(), 'gwei')
         initialize_feed_call_data = self.feed.encodeABI('initialize', args=(
             self.contract_dict['ErasurePosts'],
             self.w3.toBytes(text=proofhash),
             self.w3.toBytes(text=metadata)))
-        create_feed_txn=self.feed_factory.functions.create(
+        create_feed_txn = self.feed_factory.functions.create(
             self.w3.toBytes(hexstr=initialize_feed_call_data)
         ).buildTransaction({
-                'chainId': self.w3.eth.chainId,
-                'gasPrice': gas_price,
-                'gas': 3*10**5,
-                'nonce': self.w3.eth.getTransactionCount(self.account.address),
-            })
-        signed_txn=self.w3.eth.account.sign_transaction(
+            'chainId': self.w3.eth.chainId,
+            'gasPrice': gas_price,
+            'gas': 3*10**5,
+            'nonce': self.w3.eth.getTransactionCount(self.account.address),
+        })
+        signed_txn = self.w3.eth.account.sign_transaction(
             create_feed_txn, self.account.key)
-        tx_hash=self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+        tx_hash = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
         logger.info(f"Sent the transaction {tx_hash.hex()} to create feed")
-        pass
+        logger.info("Waiting for transaction to be mined ...")
+        receipt = self.w3.eth.waitForTransactionReceipt(tx_hash)
+        instance_created = self.feed_factory.events.InstanceCreated().processReceipt(receipt)
+        logger.info(f"Feed created at address {instance_created[0]['args']['instance']}")
+        return receipt
