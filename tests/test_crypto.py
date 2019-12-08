@@ -1,5 +1,5 @@
 from cryptography.fernet import InvalidToken
-from erasure.crypto.symmetric import (
+from erasure.crypto import (
     generate_key,
     encrypt,
     decrypt,
