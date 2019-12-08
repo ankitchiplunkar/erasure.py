@@ -9,9 +9,9 @@ def get_abi(contract):
         return json.load(json_file)
 
 
-def initialize_contract(w3, contract_dict, contract_name):
+def initialize_contract(w3, contract_address, contract_name):
     return w3.eth.contract(
-        address=contract_dict[contract_name],
+        address=contract_address,
         abi=get_abi(contract_name)
     )
 

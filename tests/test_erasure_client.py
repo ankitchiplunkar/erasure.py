@@ -11,7 +11,7 @@ from erasure.erasure_client import ErasureClient
 
 
 mode = "rinkeby"
-version = "v1.0.0"
+version = "v1.2.0"
 setup_logging()
 w3 = init_web3(node_url=ERASURE_NODE_URL)
 erasure_client = ErasureClient(w3, mode, version)
