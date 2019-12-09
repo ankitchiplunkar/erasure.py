@@ -14,7 +14,7 @@ def test_symmetric_generate_key():
 def test_symmetric_encrypt_decrypt_data():
     key1 = generate_key()
     key2 = generate_key()
-    msg = "this is a message"
+    msg = b"this is a message"
     encrypted_message = encrypt(key1, msg)
     decrypted_message = decrypt(key1, encrypted_message)
     assert msg == decrypted_message
