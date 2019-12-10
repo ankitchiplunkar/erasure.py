@@ -1,4 +1,5 @@
 import logging
+from math import ceil
 from erasure.contracts import (
     MAINNET_CONTRACTS,
     RINKEBY_CONTRACTS,
@@ -61,8 +62,19 @@ class ErasureClient():
             self.w3.toBytes(hexstr=proofhash),
             self.w3.toBytes(hexstr=metadata)))
         create_feed_txn = self.feed_factory.functions.create(
-            self.w3.toBytes(hexstr=initialize_feed_call_data)
-        ).buildTransaction({
+            self.w3.toBytes(hexstr=initialize_feed_call_data))
+        receipt = self.manage_transaction(create_feed_function)
+        instance_created = self.feed_factory.events.InstanceCreated().processReceipt(receipt)
+        logger.info(
+            f"Feed created at address {instance_created[0]['args']['instance']}")
+        return receipt
+
+    def manage_transaction(self, function_call):
+        # getting the gas price
+        gas_price = self.w3.toWei(get_gas_price(), 'gwei')
+        gas_estimated = function_call.estimateGas()
+        gas_limit = 2*ceil(gas_estimated/1000.0)*1000
+        unsigned_txn = function_call.buildTransaction({
             'chainId': self.w3.eth.chainId,
             'gasPrice': gas_price,
             'gas': 3*10**5,
