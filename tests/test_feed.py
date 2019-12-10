@@ -16,10 +16,10 @@ def test_assert_client_is_connected_to_creator():
     feed.assert_client_is_connected_to_creator()
 
 
-def test_generate_proof_hash():
+def test_generate_proof_hash_json():
     raw_data = bytes("multihash", "utf-8")
-    proof_hash, json_proofhash_v120 = feed.generate_proof_hash(raw_data, key)
+    json_proofhash_v120 = feed.generate_proof_hash_json(raw_data, key)
     dict_proofhash = json.loads(json_proofhash_v120)
     assert dict_proofhash['creator'] == feed.creator
-    assert dict_proofhash['keyhash'] == "0x1620462ec6f428569034c407b5e8dd2d7c0f46dd2f5ce55897a78aff0ec8d5cf9727"
-    assert dict_proofhash['datahash'] == "0x162008c3792b2a4deed1bd7ea2328fb5de5531eccf0fbfa04a7d800cdc267137c635"
+    assert dict_proofhash['keyhash'] == "1620462ec6f428569034c407b5e8dd2d7c0f46dd2f5ce55897a78aff0ec8d5cf9727"
+    assert dict_proofhash['datahash'] == "162008c3792b2a4deed1bd7ea2328fb5de5531eccf0fbfa04a7d800cdc267137c635"

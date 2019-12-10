@@ -20,4 +20,4 @@ def decrypt(key, token):
 
 def multihash_sha3_256(data_in_bytes):
     hashed_data = hashlib.sha3_256(data_in_bytes)
-    return "0x" + Multihash.from_hash(hashed_data).encode("hex").decode('utf-8')
+    return Multihash.from_hash(hashed_data).encode("hex").decode('utf-8')

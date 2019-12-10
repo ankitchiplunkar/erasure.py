@@ -32,10 +32,10 @@ class Feed():
         self.assert_client_is_connected_to_creator()
         if key is None:
             key = generate_key()
-        proof_hash, json_proofhash_v120 = self.generate_proof_hash(raw_data, key)
+        json_proofhash_v120 = self.generate_proof_hash(raw_data, key)
         
 
-    def generate_proof_hash(self, raw_data, key):
+    def generate_proof_hash_json(self, raw_data, key):
         encrypted_data = encrypt(key, raw_data)
         key_hash = multihash_sha3_256(key)
         data_hash = multihash_sha3_256(raw_data)
@@ -47,7 +47,7 @@ class Feed():
             "keyhash": key_hash,
             "encryptedDatahash": encrypted_data_hash,
         })
-        return self.erasure_client.w3.sha3(text=json_proofhash_v120), json_proofhash_v120
+        return json_proofhash_v120
 
     def assert_client_is_connected_to_creator(self):
         assert self.erasure_client.account.address == self.creator
