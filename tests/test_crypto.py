@@ -26,4 +26,4 @@ def test_symmetric_encrypt_decrypt_data():
 def test_multihash_sha256():
     data_in_bytes = bytes("multihash", "utf-8")
     multihashformat = multihash_sha3_256(data_in_bytes)
-    assert "162008c3792b2a4deed1bd7ea2328fb5de5531eccf0fbfa04a7d800cdc267137c635" == multihashformat
+    assert "12209cbc07c3f991725836a3aa2a581ca2029198aa420b9d99bc0e131d9f3e2cbe47" == multihashformat
