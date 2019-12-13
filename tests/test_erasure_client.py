@@ -1,8 +1,6 @@
-import pytest
 from tests.common import erasure_client
 
 
-@pytest.mark.skip(reason="Takes too much time")
 def test_create_feed():
     receipt = erasure_client.create_feed()
     instance_created = erasure_client.feed_factory.events.InstanceCreated().processReceipt(receipt)

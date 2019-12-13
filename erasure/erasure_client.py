@@ -1,7 +1,6 @@
 import logging
 from erasure.contracts import (
-    MAINNET_CONTRACTS,
-    RINKEBY_CONTRACTS,
+    CONTRACTS
 )
 from erasure.session import initialize_erasure_account
 from erasure.settings import ERASURE_ACCOUNT_PRIVATE_KEY
@@ -21,6 +20,7 @@ class ErasureClient():
 
     def __init__(self, w3, mode, version):
         self.w3 = w3
+        self.mode = mode
         self.version = version
         self.account = initialize_erasure_account(
             w3, ERASURE_ACCOUNT_PRIVATE_KEY)
@@ -28,15 +28,15 @@ class ErasureClient():
         if mode == 'rinkeby':
             logger.info(f"Connecting to Rinkeby testnet")
             assert w3.eth.chainId == 4
-            logger.info(f"Running erasure client with {version} contracts")
-            self.contract_dict = RINKEBY_CONTRACTS[version]
         elif mode == 'mainnet':
             logger.info(f"Connecting to ethereum mainnet")
             assert w3.eth.chainId == 1
-            logger.info(f"Running erasure client with {version} contracts")
-            self.contract_dict = MAINNET_CONTRACTS[version]
+        elif mode == 'test':
+            logger.info(f"Running in test mode ignoring assertion")
         else:
             raise KeyError(f"Mode {mode} is not supported")
+        logger.info(f"Running erasure client with {version} contracts")
+        self.contract_dict = CONTRACTS[mode][version]
         # Initializing contracts
         self.feed_factory = initialize_contract(
             w3=self.w3,
@@ -61,15 +61,16 @@ class ErasureClient():
         create_feed_function = self.feed_factory.functions.create(
             self.w3.toBytes(hexstr=initialize_feed_call_data)
         )
-        receipt = self.manage_transaction(create_feed_function, 3*10**5)
+        gas_price = self.get_gas_price()
+        receipt = self.manage_transaction(
+            create_feed_function, 3*10**5, gas_price)
         instance_created = self.feed_factory.events.InstanceCreated().processReceipt(receipt)
         logger.info(
             f"Feed created at address {instance_created[0]['args']['instance']}")
         return receipt
 
-    def manage_transaction(self, function_call, gas_limit):
+    def manage_transaction(self, function_call, gas_limit, gas_price):
         # getting the gas price
-        gas_price = self.w3.toWei(get_gas_price(), 'gwei')
         unsigned_txn = function_call.buildTransaction({
             'chainId': self.w3.eth.chainId,
             'gasPrice': gas_price,
@@ -83,3 +84,9 @@ class ErasureClient():
         logger.info(f"Sent the transaction {tx_hash.hex()}")
         logger.info("Waiting for transaction to be mined ...")
         return self.w3.eth.waitForTransactionReceipt(tx_hash)
+
+    def get_gas_price(self):
+        if self.mode == 'test':
+            return 0
+        else:
+            return self.w3.toWei(get_gas_price(), 'gwei')
