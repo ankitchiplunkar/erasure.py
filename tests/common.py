@@ -10,7 +10,7 @@ from erasure.settings import (
 from erasure.erasure_client import ErasureClient
 
 
-mode = "rinkeby"
+mode = "test"
 version = "v1.2.0"
 setup_logging()
 w3 = init_web3(node_url=ERASURE_NODE_URL)

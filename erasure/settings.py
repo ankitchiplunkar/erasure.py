@@ -7,7 +7,7 @@ LOG_FORMAT = os.getenv(
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 # Connection settings
-ERASURE_NODE_URL = os.getenv("ERASURE_NODE_URL")
+ERASURE_NODE_URL = os.getenv("ERASURE_NODE_URL", "http://127.0.0.1:8545")
 ERASURE_MODE = os.getenv("ERASURE_MODE", "rinkeby")
 GAS_PRICE_MODE = os.getenv("GAS_PRICE_MODE", "average")
 
