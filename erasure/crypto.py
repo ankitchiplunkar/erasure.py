@@ -1,6 +1,5 @@
 from cryptography.fernet import Fernet
-from multihash import Multihash
-import hashlib
+import multihash
 
 
 def generate_key():
@@ -18,6 +17,5 @@ def decrypt(key, token):
     return f.decrypt(token)
 
 
-def multihash_sha3_256(data_in_bytes):
-    hashed_data = hashlib.sha3_256(data_in_bytes)
-    return Multihash.from_hash(hashed_data).encode("hex").decode('utf-8')
+def multihash_sha256(data_in_bytes):
+    return multihash.digest(data_in_bytes, "sha2_256").encode("hex").decode('utf-8')

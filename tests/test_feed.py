@@ -27,5 +27,5 @@ def test_generate_proof_hash_json():
     json_proofhash_v120 = feed.generate_proof_hash_json(raw_data, key)
     dict_proofhash = json.loads(json_proofhash_v120)
     assert dict_proofhash['creator'] == feed.creator
-    assert dict_proofhash['keyhash'] == "1620462ec6f428569034c407b5e8dd2d7c0f46dd2f5ce55897a78aff0ec8d5cf9727"
-    assert dict_proofhash['datahash'] == "162008c3792b2a4deed1bd7ea2328fb5de5531eccf0fbfa04a7d800cdc267137c635"
+    assert dict_proofhash['keyhash'] == "12207cc1aecef100afce425b7ea2eabd791eafec252c0e7be07dcf2ab911c4ee19d6"
+    assert dict_proofhash['datahash'] == "12209cbc07c3f991725836a3aa2a581ca2029198aa420b9d99bc0e131d9f3e2cbe47"
