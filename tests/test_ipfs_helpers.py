@@ -2,7 +2,12 @@ import pytest
 from erasure.ipfs import (
     get_ipfs_hash,
     hash_to_hex,
+    upload_bytes_to_ipfs,
+    download_bytes_from_ipfs,
 )
+
+input_data = "Hello World!\n".encode()
+ipfs_cid = "QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG"
 
 
 def test_hash_to_hex():
@@ -13,6 +18,9 @@ def test_hash_to_hex():
 
 
 def test_ipfs_hash():
-    input_data = "Hello World!\n".encode()
-    ipfs_hash = "QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG"
-    assert get_ipfs_hash(input_data) == ipfs_hash
+    assert get_ipfs_hash(input_data) == ipfs_cid
+
+
+def test_upload_download():
+    assert upload_bytes_to_ipfs(input_data) == ipfs_cid
+    assert download_bytes_from_ipfs(ipfs_cid) == input_data
