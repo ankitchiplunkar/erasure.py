@@ -1,4 +1,5 @@
 import json
+from hashlib import sha256
 from tests.common import erasure_client
 from erasure.feed import Feed
 
@@ -33,4 +34,8 @@ def test_generate_proof_hash_json():
 
 def test_create_post():
     feed = create_feed()
-    feed.create_post(raw_data, key=key)
+    receipt = feed.create_post(raw_data, key=key)
+    hash_submitted = feed.contract.events.HashSubmitted().processReceipt(receipt)
+    # cannot check for hash submitted right now because fernet has a time
+    # component and fernet hash varies with time
+    assert hash_submitted[0]['event'] == 'HashSubmitted'

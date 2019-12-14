@@ -1,6 +1,7 @@
 import json
 import logging
 import multihash
+from hashlib import sha256
 from erasure.utils import (
     initialize_contract
 )
@@ -33,12 +34,19 @@ class Feed():
         if key is None:
             key = generate_key()
         json_proofhash_v120 = self.generate_proof_hash_json(raw_data, key)
-        proof_hash = self.erasure_client.w3.sha3(text=json_proofhash_v120)
+        proof_hash_in_bytes = sha256(
+            bytes(json_proofhash_v120, 'utf-8')).digest()
         submit_hash_function = self.contract.functions.submitHash(
-            bytes(proof_hash))
+            proof_hash_in_bytes)
         gas_price = self.erasure_client.get_gas_price()
+        # estimate gas fails for some reason
+        gas_limit = 100000
         receipt = self.erasure_client.manage_transaction(
-            submit_hash_function, gas_price=gas_price)
+            submit_hash_function,
+            gas_limit=gas_limit,
+            gas_price=gas_price)
+        return receipt
+        # TODO: save the key in ~/.erasure/proofhash (location)
 
     def generate_proof_hash_json(self, raw_data, key):
         encrypted_data = encrypt(key, raw_data)
