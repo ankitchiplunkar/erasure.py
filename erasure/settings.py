@@ -1,5 +1,7 @@
 import os
 
+HOME_DIR = os.path.expanduser("~")
+
 # Logging settings
 LOG_STDOUT = os.getenv("LOG_STDOUT", "TRUE")
 LOG_FORMAT = os.getenv(
@@ -17,3 +19,5 @@ ERASURE_ACCOUNT_PRIVATE_KEY = os.getenv(
     "ERASURE_ACCOUNT_PRIVATE_KEY", TEST_PRIVATE_KEY)
 FEED_CONTRACT_ADDRESS = os.getenv("FEED_CONTRACT_ADDRESS")
 ERASURE_PROTOCOL_VERSION = os.getenv("ERASURE_PROTOCOL_VERSION", "0.1.1")
+
+ERASURE_KEY_STORE = os.getenv("ERASURE_KEY_STORE", f"{HOME_DIR}/.erasure/")

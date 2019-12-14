@@ -15,3 +15,4 @@ setup_logging()
 ERASURE_NODE_URL = 'http://localhost:8545'
 w3 = init_web3(node_url=ERASURE_NODE_URL)
 erasure_client = ErasureClient(w3, mode, version)
+erasure_client.update_key_store('/tmp')
