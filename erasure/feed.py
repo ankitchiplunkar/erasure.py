@@ -2,8 +2,12 @@ import json
 import logging
 import multihash
 from hashlib import sha256
+from erasure.ipfs import (
+    upload_bytes_to_ipfs,
+)
 from erasure.utils import (
-    initialize_contract
+    initialize_contract,
+    write_file,
 )
 from erasure.crypto import (
     generate_key,
@@ -11,7 +15,7 @@ from erasure.crypto import (
     multihash_sha256,
 )
 
-logger = logging.info(__name__)
+logger = logging.getLogger(__name__)
 
 
 class Feed():
@@ -33,20 +37,26 @@ class Feed():
         self.assert_client_is_connected_to_creator()
         if key is None:
             key = generate_key()
-        json_proofhash_v120 = self.generate_proof_hash_json(raw_data, key)
-        proof_hash_in_bytes = sha256(
-            bytes(json_proofhash_v120, 'utf-8')).digest()
+        json_proofhash_v120, encrypted_data = self.generate_proof_hash_json(
+            raw_data, key)
+        proof_hash = sha256(
+            bytes(json_proofhash_v120, 'utf-8'))
         submit_hash_function = self.contract.functions.submitHash(
-            proof_hash_in_bytes)
+            proof_hash.digest())
         gas_price = self.erasure_client.get_gas_price()
-        # estimate gas fails for some reason
+        # TODO: estimate gas fails for some reason
         gas_limit = 100000
+        logger.info(
+            f'Submitting proof hash {proof_hash.hexdigest()} to {self.erasure_client.mode} network')
         receipt = self.erasure_client.manage_transaction(
             submit_hash_function,
             gas_limit=gas_limit,
             gas_price=gas_price)
+        logger.info(f"Uploading encrypted data to ipfs")
+        cid = upload_bytes_to_ipfs(encrypted_data)
+        self.save_post(key=key, encrypted_data=encrypted_data,
+                       cid=cid, proof_hash=proof_hash)
         return receipt
-        # TODO: save the key in ~/.erasure/proofhash (location)
 
     def generate_proof_hash_json(self, raw_data, key):
         encrypted_data = encrypt(key, raw_data)
@@ -60,7 +70,14 @@ class Feed():
             "keyhash": key_hash,
             "encryptedDatahash": encrypted_data_hash,
         })
-        return json_proofhash_v120
+        return json_proofhash_v120, encrypted_data
 
     def assert_client_is_connected_to_creator(self):
         assert self.erasure_client.account.address == self.creator
+
+    def save_post(self, key, encrypted_data, cid, proof_hash):
+        logger.info("Saving details of post locally")
+        directory = f"{self.erasure_client._key_store}/{proof_hash.hexdigest()}"
+        write_file(directory, "key", key)
+        write_file(directory, "edata", encrypted_data)
+        write_file(directory, "cid", cid)
