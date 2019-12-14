@@ -3,7 +3,7 @@ from erasure.crypto import (
     generate_key,
     encrypt,
     decrypt,
-    multihash_sha3_256,
+    multihash_sha256,
 )
 import pytest
 
@@ -25,5 +25,5 @@ def test_symmetric_encrypt_decrypt_data():
 
 def test_multihash_sha256():
     data_in_bytes = bytes("multihash", "utf-8")
-    multihashformat = multihash_sha3_256(data_in_bytes)
+    multihashformat = multihash_sha256(data_in_bytes)
     assert "12209cbc07c3f991725836a3aa2a581ca2029198aa420b9d99bc0e131d9f3e2cbe47" == multihashformat

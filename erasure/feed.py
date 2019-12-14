@@ -7,7 +7,7 @@ from erasure.utils import (
 from erasure.crypto import (
     generate_key,
     encrypt,
-    multihash_sha3_256,
+    multihash_sha256,
 )
 
 logger = logging.info(__name__)
@@ -37,9 +37,9 @@ class Feed():
 
     def generate_proof_hash_json(self, raw_data, key):
         encrypted_data = encrypt(key, raw_data)
-        key_hash = multihash_sha3_256(key)
-        data_hash = multihash_sha3_256(raw_data)
-        encrypted_data_hash = multihash_sha3_256(encrypted_data)
+        key_hash = multihash_sha256(key)
+        data_hash = multihash_sha256(raw_data)
+        encrypted_data_hash = multihash_sha256(encrypted_data)
         # constructing the json
         json_proofhash_v120 = json.dumps({
             "creator": self.creator,
