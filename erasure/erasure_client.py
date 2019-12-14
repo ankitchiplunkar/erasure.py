@@ -1,4 +1,6 @@
 import logging
+import requests
+from math import ceil
 from erasure.contracts import (
     CONTRACTS
 )
@@ -6,7 +8,6 @@ from erasure.session import initialize_erasure_account
 from erasure.settings import ERASURE_ACCOUNT_PRIVATE_KEY
 from erasure.utils import (
     initialize_contract,
-    get_gas_price,
 )
 
 
@@ -58,19 +59,22 @@ class ErasureClient():
             self.contract_dict['ErasurePosts'],
             self.w3.toBytes(hexstr=proofhash),
             self.w3.toBytes(hexstr=metadata)))
+        gas_price = self.get_gas_price()
         create_feed_function = self.feed_factory.functions.create(
             self.w3.toBytes(hexstr=initialize_feed_call_data)
         )
-        gas_price = self.get_gas_price()
+        gas_estimated = create_feed_function.estimateGas()
+        gas_limit = 2*ceil(gas_estimated/1000.0)*1000
         receipt = self.manage_transaction(
-            create_feed_function, 3*10**5, gas_price)
+            create_feed_function,
+            gas_limit=gas_limit,
+            gas_price=gas_price)
         instance_created = self.feed_factory.events.InstanceCreated().processReceipt(receipt)
         logger.info(
             f"Feed created at address {instance_created[0]['args']['instance']}")
         return receipt
 
     def manage_transaction(self, function_call, gas_limit, gas_price):
-        # getting the gas price
         unsigned_txn = function_call.buildTransaction({
             'chainId': self.w3.eth.chainId,
             'gasPrice': gas_price,
@@ -85,8 +89,10 @@ class ErasureClient():
         logger.info("Waiting for transaction to be mined ...")
         return self.w3.eth.waitForTransactionReceipt(tx_hash)
 
-    def get_gas_price(self):
+    def get_gas_price(self, mode='average'):
         if self.mode == 'test':
             return 0
         else:
-            return self.w3.toWei(get_gas_price(), 'gwei')
+            url = "https://ethgasstation.info/json/ethgasAPI.json"
+            result = requests.get(url)
+            return self.w3.toWei(result.json()[mode]/10, 'gwei')
