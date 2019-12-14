@@ -7,7 +7,7 @@ from erasure.utils import (
 from erasure.crypto import (
     generate_key,
     encrypt,
-    multihash_sha3_256,
+    multihash_sha256,
 )
 
 logger = logging.info(__name__)
@@ -34,14 +34,17 @@ class Feed():
             key = generate_key()
         json_proofhash_v120 = self.generate_proof_hash_json(raw_data, key)
         proof_hash = self.erasure_client.w3.sha3(text=json_proofhash_v120)
-        submit_hash_function = self.contract.functions.submitHash(bytes(proof_hash))
-        receipt = self.erasure_client.manage_transaction(submit_hash_function)
+        submit_hash_function = self.contract.functions.submitHash(
+            bytes(proof_hash))
+        gas_price = self.erasure_client.get_gas_price()
+        receipt = self.erasure_client.manage_transaction(
+            submit_hash_function, gas_price=gas_price)
 
-    def generate_proof_hash(self, raw_data, key):
+    def generate_proof_hash_json(self, raw_data, key):
         encrypted_data = encrypt(key, raw_data)
-        key_hash = multihash_sha3_256(key)
-        data_hash = multihash_sha3_256(raw_data)
-        encrypted_data_hash = multihash_sha3_256(encrypted_data)
+        key_hash = multihash_sha256(key)
+        data_hash = multihash_sha256(raw_data)
+        encrypted_data_hash = multihash_sha256(encrypted_data)
         # constructing the json
         json_proofhash_v120 = json.dumps({
             "creator": self.creator,
