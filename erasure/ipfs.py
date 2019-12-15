@@ -21,7 +21,7 @@ def upload_bytes_to_ipfs(raw_data_in_bytes):
     assert isinstance(raw_data_in_bytes, bytes)
     with ipfshttpclient.connect() as client:
         cid = client.add_bytes(raw_data_in_bytes)
-        logger.info(f"Data uploaded to {cid}")
+        logger.info(f"Upload successful to {cid}")
         return cid
 
 

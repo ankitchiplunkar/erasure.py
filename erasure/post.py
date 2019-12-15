@@ -25,7 +25,8 @@ class Post():
     def reveal(self):
         self._fetch_post_secrets()
         data = decrypt(self.key, self.encrypted_data)
+        logger.info(f'Uploading key.')
         key_cid = upload_bytes_to_ipfs(self.key)
-        logger.info(f'Uploaded key to cid {key_cid}')
+        logger.info(f'Uploading data.')
         data_cid = upload_bytes_to_ipfs(data)
-        logger.info(f'Uploaded data to cid {data_cid}')
+        return key_cid, data_cid
