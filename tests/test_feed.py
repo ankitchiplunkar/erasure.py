@@ -1,6 +1,11 @@
 import json
 from hashlib import sha256
-from tests.common import erasure_client
+from tests.common import (
+    erasure_client,
+    feed,
+    raw_data,
+    key,
+)
 from erasure.feed import Feed
 from erasure.utils import get_file_contents
 from erasure.crypto import (
@@ -10,28 +15,17 @@ from erasure.crypto import (
 from erasure.ipfs import download_bytes_from_ipfs
 from erasure.post import Post
 
-FEED_ADDRESS = "0xd7b553e28c101B6fA6ae2f7824c9f78f8fDC13B7"
-raw_data = bytes("multihash", "utf-8")
-key = b'B1yfUQ64D86WaumL1vjm1Ua7-7j0_YjjdOlsA-y9bQo='
-
-
-def create_feed():
-    return Feed(erasure_client=erasure_client, feed_address=FEED_ADDRESS)
-
 
 def test_init_feed():
-    feed = create_feed()
     assert feed.creator == erasure_client.account.address
     assert feed.operator == erasure_client.contract_dict["ErasurePosts"]
 
 
 def test_assert_client_is_connected_to_creator():
-    feed = create_feed()
     feed.assert_client_is_connected_to_creator()
 
 
 def test_generate_proof_hash_json():
-    feed = create_feed()
     json_proofhash_v120, encrypted_data = feed.generate_proof_hash_json(
         raw_data, key)
     dict_proofhash = json.loads(json_proofhash_v120)
@@ -41,7 +35,6 @@ def test_generate_proof_hash_json():
 
 
 def test_create_post():
-    feed = create_feed()
     receipt = feed.create_post(raw_data, key=key)
     hash_submitted = feed.contract.events.HashSubmitted().processReceipt(receipt)
     proof_hash_hex = feed.erasure_client.w3.toHex(
