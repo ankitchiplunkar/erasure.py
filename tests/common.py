@@ -1,5 +1,4 @@
 from erasure.session import (
-    setup_logging,
     init_web3,
     initialize_erasure_account
 )
@@ -12,7 +11,6 @@ from erasure.feed import Feed
 # Initialize test variables
 mode = "test"
 version = "v1.2.0"
-setup_logging()
 ERASURE_NODE_URL = 'http://localhost:8545'
 raw_data = bytes("multihash", "utf-8")
 key = b'B1yfUQ64D86WaumL1vjm1Ua7-7j0_YjjdOlsA-y9bQo='
