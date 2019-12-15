@@ -5,13 +5,12 @@ from setuptools import (
 )
 
 # managing version
-file_name = 'VERSION'
-with open(file_name, 'r') as f:
+with open("VERSION", 'r') as f:
     VERSION = f.read()
 
 # managing readme
 this_directory = path.abspath(path.dirname(__file__))
-with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+with open(path.join(this_directory, 'README.md'), 'r') as f:
     long_description = f.read()
 
 setup(
@@ -20,7 +19,6 @@ setup(
     py_modules=['erasure'],
     description="""A python library to interact with the erasure protocol.""",
     long_description=long_description,
-    long_description_content_type='text/markdown',
     author='Ankit Chiplunkar',
     author_email='ankitchiplunkar@gmail.com',
     url='https://github.com/ankitchiplunkar/erasure.py',
