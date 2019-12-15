@@ -7,21 +7,22 @@ Python client for the erasure protocol
 
 ## Usage:
 The client is built to replicate the usage [here](https://github.com/erasureprotocol/erasure-protocol#example-usage-of-erasureclient).
-0. Update the [settings](https://github.com/ankitchiplunkar/erasure.py/blob/master/erasure/settings.py) by configuring the appropriate enviornment variables.
-1. [Initialize](https://github.com/ankitchiplunkar/erasure.py/blob/master/tests/common.py) a client:
+
+1. Update the [settings](https://github.com/ankitchiplunkar/erasure.py/blob/master/erasure/settings.py) by configuring the appropriate enviornment variables.
+2. [Initialize](https://github.com/ankitchiplunkar/erasure.py/blob/master/tests/common.py) a client:
     ```
     erasure_client = ErasureClient(w3, mode, version)
     ```
-2. [Create](https://github.com/ankitchiplunkar/erasure.py/blob/master/tests/common.py) a feed:
+3. [Create](https://github.com/ankitchiplunkar/erasure.py/blob/master/tests/common.py) a feed:
     ```
     feed = Feed(erasure_client=erasure_client, feed_address=FEED_ADDRESS)
     ```
-3. [Submit](https://github.com/ankitchiplunkar/erasure.py/blob/master/tests/test_feed.py) a post:
+4. [Submit](https://github.com/ankitchiplunkar/erasure.py/blob/master/tests/test_feed.py) a post:
     ```
     receipt = feed.create_post(raw_data, key=key)
     ```
     **Note**: The encryption keys, and data for this post will be saved in `ERASURE_KEY_STORE/<proof_hash>`
-4. [Reveal](https://github.com/ankitchiplunkar/erasure.py/blob/master/tests/test_post.py) a post:
+5. [Reveal](https://github.com/ankitchiplunkar/erasure.py/blob/master/tests/test_post.py) a post:
     ```
     key_cid, data_cid = post.reveal()
     ```
