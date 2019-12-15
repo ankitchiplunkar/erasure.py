@@ -3,13 +3,11 @@ Python client for the erasure protocol
 
 ## Setup:
 1. Create & activate virtulenv (python 3.6+)
-2. Install the library using pypi
-    ```
-    pip install erasure
-    ```
+2. Install the library using pypi. `pip install erasure`
 
 ## Usage:
-0. Update the [settings](https://github.com/ankitchiplunkar/erasure.py/blob/master/erasure/settings.py) by providing necessary enviornment variables.
+The client is built to replicate the usage [here](https://github.com/erasureprotocol/erasure-protocol#example-usage-of-erasureclient).
+0. Update the [settings](https://github.com/ankitchiplunkar/erasure.py/blob/master/erasure/settings.py) by configuring the appropriate enviornment variables.
 1. [Initialize](https://github.com/ankitchiplunkar/erasure.py/blob/master/tests/common.py) a client:
     ```
     erasure_client = ErasureClient(w3, mode, version)
@@ -29,18 +27,8 @@ Python client for the erasure protocol
     ```
 
 ## Development:
-1. Clone & enter the repo:
-    ```
-    git clone https://github.com/ankitchiplunkar/erasure.py.git
-    ```
-2. Install required libraries:
-    ```
-    pip install -r requirements.txt
-    ```
-3. Install erasure.py:
-    ```
-    pip install -e .
-    ```
+1. Clone & enter the repo. `git clone https://github.com/ankitchiplunkar/erasure.py.git`
+2. Install required libraries. `pip install -r requirements.txt`
 
 ## Testing:
 1. Launch a local version of erasure protocol via [ganache](https://github.com/erasureprotocol/erasure-protocol/tree/master/packages/testenv#deploy-contracts-to-local-ganache-server)
