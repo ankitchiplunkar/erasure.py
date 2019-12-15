@@ -8,6 +8,7 @@ from erasure.crypto import (
     multihash_sha256,
 )
 from erasure.ipfs import download_bytes_from_ipfs
+from erasure.post import Post
 
 FEED_ADDRESS = "0xd7b553e28c101B6fA6ae2f7824c9f78f8fDC13B7"
 raw_data = bytes("multihash", "utf-8")
@@ -45,17 +46,14 @@ def test_create_post():
     hash_submitted = feed.contract.events.HashSubmitted().processReceipt(receipt)
     proof_hash_hex = feed.erasure_client.w3.toHex(
         hash_submitted[0]['args']['hash'])
-    key_store = feed.erasure_client.get_key_store()
-    retrieved_key = get_file_contents(f"{key_store}/{proof_hash_hex[2:]}/key").encode('utf-8')
-    encrypted_data = get_file_contents(
-        f"{key_store}/{proof_hash_hex[2:]}/edata").encode('utf-8')
-    cid = get_file_contents(f"{key_store}/{proof_hash_hex[2:]}/cid")
-    assert retrieved_key == key
-    assert encrypted_data == download_bytes_from_ipfs(cid)
-    data = decrypt(retrieved_key, encrypted_data)
-    key_hash = multihash_sha256(key)
+    post = Post(feed, proof_hash_hex[2:])
+    post._fetch_post_secrets()
+    assert post.key == key
+    assert post.encrypted_data == download_bytes_from_ipfs(post.cid)
+    data = decrypt(post.key, post.encrypted_data)
+    key_hash = multihash_sha256(post.key)
     data_hash = multihash_sha256(data)
-    encrypted_data_hash = multihash_sha256(encrypted_data)
+    encrypted_data_hash = multihash_sha256(post.encrypted_data)
     # asserting the proof hash json
     json_proofhash_v120 = json.dumps({
         "creator": feed.creator,
