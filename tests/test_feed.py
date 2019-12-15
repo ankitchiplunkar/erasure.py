@@ -5,6 +5,7 @@ from tests.common import (
     feed,
     raw_data,
     key,
+    test_operator,
 )
 from erasure.feed import Feed
 from erasure.utils import get_file_contents
@@ -18,7 +19,7 @@ from erasure.post import Post
 
 def test_init_feed():
     assert feed.creator == erasure_client.account.address
-    assert feed.operator == erasure_client.contract_dict["ErasurePosts"]
+    assert feed.operator == test_operator
 
 
 def test_assert_client_is_connected_to_creator():

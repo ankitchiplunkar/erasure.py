@@ -53,15 +53,15 @@ class ErasureClient():
             contract_address=None,
             contract_name="Feed")
 
-    def create_feed(self, proofhash='0x', metadata='0x'):
+    def create_feed(self, operator, proofhash='0x', metadata='0x'):
         logger.info(f"Creating erasure with protocol version {self.version}")
         logger.info(
             f"Creating erasure feed for the user {self.account.address}")
         logger.info(
-            f"Creating erasure feed at the operator {self.contract_dict['ErasurePosts']}")
+            f"Creating erasure feed at the operator {operator}")
         # get call data to create feed
         initialize_feed_call_data = self.feed_template.encodeABI('initialize', args=(
-            self.contract_dict['ErasurePosts'],
+            operator,
             self.w3.toBytes(hexstr=proofhash),
             self.w3.toBytes(hexstr=metadata)))
         gas_price = self.get_gas_price()
