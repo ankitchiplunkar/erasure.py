@@ -8,6 +8,6 @@ Python client for the erasure protocol
 4. Install erasure.py `pip install -e .`
 
 ## Testing
-1. Launch a local version of erasure protocol via ganache
-    - https://github.com/erasureprotocol/erasure-protocol/tree/master/packages/testenv#deploy-contracts-to-local-ganache-server
-2. Run the tests locally `pytest -vv tests/`
+1. Launch a local version of erasure protocol via [ganache](https://github.com/erasureprotocol/erasure-protocol/tree/master/packages/testenv#deploy-contracts-to-local-ganache-server)
+2. Install, initlalize and run the ipfs daemon locally `ipfs daemon`
+3. Run the tests locally `pytest -vv tests/`

@@ -5,7 +5,10 @@ from erasure.contracts import (
     CONTRACTS
 )
 from erasure.session import initialize_erasure_account
-from erasure.settings import ERASURE_ACCOUNT_PRIVATE_KEY
+from erasure.settings import (
+    ERASURE_ACCOUNT_PRIVATE_KEY,
+    ERASURE_KEY_STORE,
+)
 from erasure.utils import (
     initialize_contract,
 )
@@ -23,6 +26,8 @@ class ErasureClient():
         self.w3 = w3
         self.mode = mode
         self.version = version
+        self._key_store = ERASURE_KEY_STORE
+        logger.info(f"Keys will be stored at {self._key_store}")
         self.account = initialize_erasure_account(
             w3, ERASURE_ACCOUNT_PRIVATE_KEY)
         # Initializing contract addresses
@@ -96,3 +101,10 @@ class ErasureClient():
             url = "https://ethgasstation.info/json/ethgasAPI.json"
             result = requests.get(url)
             return self.w3.toWei(result.json()[mode]/10, 'gwei')
+
+    def update_key_store(self, new_key_store):
+        self._key_store = new_key_store
+        logger.info(f"Updated location of key store to {new_key_store}")
+
+    def get_key_store(self):
+        return self._key_store
