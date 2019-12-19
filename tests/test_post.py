@@ -5,7 +5,7 @@ from tests.common import (
 )
 from erasure.post import Post
 from erasure.ipfs import download_bytes_from_ipfs
-from erasure.crypto import decrypt
+from erasure.crypto import Symmetric
 
 receipt = feed.create_post(raw_data, key=key)
 
@@ -17,6 +17,6 @@ def test_reveal():
     post = Post(feed, proof_hash_hex[2:])
     key_cid, data_cid = post.reveal()
     post._fetch_post_secrets()
-    data = decrypt(post.key, post.encrypted_data)
+    data = Symmetric.decrypt(post.key, post.encrypted_data)
     assert post.key == download_bytes_from_ipfs(key_cid)
     assert data == download_bytes_from_ipfs(data_cid)

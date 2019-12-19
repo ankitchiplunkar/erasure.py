@@ -1,7 +1,7 @@
 import logging
 from erasure.utils import get_file_contents
 from erasure.ipfs import upload_bytes_to_ipfs
-from erasure.crypto import decrypt
+from erasure.crypto import Symmetric
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class Post():
 
     def reveal(self):
         self._fetch_post_secrets()
-        data = decrypt(self.key, self.encrypted_data)
+        data = Symmetric.decrypt(self.key, self.encrypted_data)
         logger.info(f'Uploading key.')
         key_cid = upload_bytes_to_ipfs(self.key)
         logger.info(f'Uploading data.')

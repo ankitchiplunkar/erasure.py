@@ -10,8 +10,7 @@ from erasure.utils import (
     write_file,
 )
 from erasure.crypto import (
-    generate_key,
-    encrypt,
+    Symmetric,
     multihash_sha256,
 )
 
@@ -59,7 +58,7 @@ class Feed():
         return receipt
 
     def generate_proof_hash_json(self, raw_data, key):
-        encrypted_data = encrypt(key, raw_data)
+        encrypted_data = Symmetric.encrypt(key, raw_data)
         key_hash = multihash_sha256(key)
         data_hash = multihash_sha256(raw_data)
         encrypted_data_hash = multihash_sha256(encrypted_data)
