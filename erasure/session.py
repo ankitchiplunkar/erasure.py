@@ -25,8 +25,6 @@ def setup_logging():
     # removing logs from noisy libraries
     logging.getLogger("urllib3").setLevel(logging.WARNING)
     logging.getLogger("web3").setLevel(logging.WARNING)
-    logging.getLogger("boto3").setLevel(logging.WARNING)
-    logging.getLogger("botocore").setLevel(logging.WARNING)
 
 
 def init_web3(node_url):
