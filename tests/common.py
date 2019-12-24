@@ -20,7 +20,7 @@ ERASURE_NODE_URL = 'http://localhost:8545'
 raw_data = bytes("multihash", "utf-8")
 key = b'B1yfUQ64D86WaumL1vjm1Ua7-7j0_YjjdOlsA-y9bQo='
 test_operator = "0x0000000000000000000000000000000000000000"
-testenv_folder = "/home/ankit/projects/erasure-protocol/packages/testenv"
+testenv_folder = os.getenv("TESTENV_FOLDER")
 
 # Initializing erasure client
 @pytest.fixture(scope="session")

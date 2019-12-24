@@ -1,6 +1,8 @@
 sudo: required
 language: python
 dist: trusty
+env:
+  - TESTENV_FOLDER=erasure-protocol/packages/testenv
 python:
   - "3.6"
 cache:
@@ -18,6 +20,7 @@ before_install:
   - yarn && yarn compile
   - cd ../../..
   - pwd && ls
+  - echo $TESTENV_FOLDER
 install:
   - travis_retry pip install -e . -r requirements.txt
 script:
