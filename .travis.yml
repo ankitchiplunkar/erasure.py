@@ -15,7 +15,9 @@ before_install:
   - cd erasure-protocol
   - git checkout f9a02ccb11e62a7ae78f6b7cc53e234fc13e3ede
   - cd packages/testenv
-  - yarn && yarn compile
+  - pwd && ls 
+  - yarn
+  - yarn compile --verbose
 install:
   - travis_retry pip install -e . -r requirements.txt
 script:
