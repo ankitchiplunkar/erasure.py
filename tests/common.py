@@ -21,5 +21,6 @@ erasure_client = ErasureClient(w3, mode, version)
 erasure_client.update_key_store('/tmp')
 # Initializing feed
 receipt = erasure_client.create_feed(operator=test_operator)
-FEED_ADDRESS = "0xf99196ec2c2b15b625FF1707a98458b2CfE3e554"
+instance_created = erasure_client.feed_factory.events.InstanceCreated().processReceipt(receipt)
+FEED_ADDRESS = instance_created[0]['args']['instance']
 feed = Feed(erasure_client=erasure_client, feed_address=FEED_ADDRESS)

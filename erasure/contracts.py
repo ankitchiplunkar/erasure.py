@@ -11,7 +11,7 @@ CONTRACTS = {
     },
     'test': {
         "v1.2.0": {
-            "FeedFactory": "0x9b1f7F645351AF3631a656421eD2e40f2802E6c0"
+            "FeedFactory": "0x67B5656d60a809915323Bf2C40A8bEF15A152e3e"
         }
     }
 }
