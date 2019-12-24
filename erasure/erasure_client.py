@@ -88,7 +88,7 @@ class ErasureClient():
         register_user_function = self.erasure_users.functions.registerUser(
             bytes(public_key, 'utf-8'))
         gas_price = self.get_gas_price()
-        gas_estimated = create_feed_function.estimateGas()
+        gas_estimated = register_user_function.estimateGas()
         gas_limit = 2*ceil(gas_estimated/1000.0)*1000
         receipt = self.manage_transaction(
             register_user_function,
