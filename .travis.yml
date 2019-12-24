@@ -1,0 +1,21 @@
+sudo: required
+language: python
+dist: trusty
+python:
+  - "3.6"
+cache:
+  - pip: true
+before_install:
+  - wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
+  - source ~/.nvm/nvm.sh
+  - nvm install 5 # for Node v5
+  - node --version
+  - git clone https://github.com/erasureprotocol/erasure-protocol.git
+  - cd erasure-protocol
+  - git checkout f9a02ccb11e62a7ae78f6b7cc53e234fc13e3ede
+  - cd packages/testenv
+  - yarn && yarn compile
+install:
+  - travis_retry pip install -e . -r requirements.txt
+script:
+  - python -m pytest -vv tests/
