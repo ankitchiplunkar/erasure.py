@@ -17,7 +17,7 @@ before_install:
   - cd packages/testenv
   - pwd && ls 
   - yarn
-  - yarn compile --verbose
+  - yarn --registry https://registry.npmjs.org --verbose compile
 install:
   - travis_retry pip install -e . -r requirements.txt
 script:
