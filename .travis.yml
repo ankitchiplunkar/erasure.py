@@ -10,6 +10,7 @@ before_install:
   - source ~/.nvm/nvm.sh
   - nvm install 5 # for Node v5
   - node --version
+  - npm install -g ganache-cli # install ganache
   - git clone https://github.com/erasureprotocol/erasure-protocol.git
   - cd erasure-protocol
   - git checkout f9a02ccb11e62a7ae78f6b7cc53e234fc13e3ede
