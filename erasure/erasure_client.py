@@ -52,6 +52,10 @@ class ErasureClient():
             w3=self.w3,
             contract_address=None,
             contract_name="Feed")
+        self.erasure_users = initialize_contract(
+            w3=self.w3,
+            contract_address=self.contract_dict["ErasureUsers"],
+            contract_name="ErasureUsers")
 
     def create_feed(self, operator, proofhash='0x', metadata='0x'):
         logger.info(f"Creating erasure with protocol version {self.version}")
@@ -77,6 +81,19 @@ class ErasureClient():
         instance_created = self.feed_factory.events.InstanceCreated().processReceipt(receipt)
         logger.info(
             f"Feed created at address {instance_created[0]['args']['instance']}")
+        return receipt
+
+    def create_user(self, public_key):
+        logger.info(f"Registering user to the public key {public_key}")
+        register_user_function = self.erasure_users.functions.registerUser(
+            bytes(public_key, 'utf-8'))
+        gas_price = self.get_gas_price()
+        gas_estimated = register_user_function.estimateGas()
+        gas_limit = 2*ceil(gas_estimated/1000.0)*1000
+        receipt = self.manage_transaction(
+            register_user_function,
+            gas_limit=gas_limit,
+            gas_price=gas_price)
         return receipt
 
     def manage_transaction(self, function_call, gas_limit, gas_price):

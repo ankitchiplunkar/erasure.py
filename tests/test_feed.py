@@ -10,7 +10,7 @@ from tests.common import (
 from erasure.feed import Feed
 from erasure.utils import get_file_contents
 from erasure.crypto import (
-    decrypt,
+    Symmetric,
     multihash_sha256,
 )
 from erasure.ipfs import download_bytes_from_ipfs
@@ -44,7 +44,7 @@ def test_create_post(init_feed):
     post._fetch_post_secrets()
     assert post.key == key
     assert post.encrypted_data == download_bytes_from_ipfs(post.cid)
-    data = decrypt(post.key, post.encrypted_data)
+    data = Symmetric.decrypt(post.key, post.encrypted_data)
     key_hash = multihash_sha256(post.key)
     data_hash = multihash_sha256(data)
     encrypted_data_hash = multihash_sha256(post.encrypted_data)
