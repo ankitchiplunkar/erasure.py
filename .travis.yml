@@ -11,7 +11,7 @@ before_install:
   - curl -O https://dist.ipfs.io/go-ipfs/v0.4.22/go-ipfs_v0.4.22_linux-amd64.tar.gz
   - tar xvfz go-ipfs_v0.4.22_linux-amd64.tar.gz
   - cd go-ipfs
-  - ./install.sh # install ipfs
+  - sudo ./install.sh # install ipfs
   - wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
   - source ~/.nvm/nvm.sh 
   - nvm install 11 # installing nvm 11
