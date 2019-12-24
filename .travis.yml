@@ -12,6 +12,7 @@ before_install:
   - tar xvfz go-ipfs_v0.4.22_linux-amd64.tar.gz
   - cd go-ipfs
   - sudo ./install.sh # install ipfs
+  - cd ..
   - wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
   - source ~/.nvm/nvm.sh 
   - nvm install 11 # installing nvm 11
@@ -23,6 +24,8 @@ before_install:
   - cd packages/testenv
   - yarn && yarn compile # compiling erasure-protocol
   - cd ../../..
+  - ipfs help 
+  - pwd && ls
 install:
   - travis_retry pip install -e . -r requirements.txt
 script:
