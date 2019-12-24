@@ -45,7 +45,7 @@ def setup_erasure_test_env():
     cmdline = f"cd {testenv_folder} && yarn deploy"
     worker = subprocess.Popen(
         cmdline, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    time.sleep(4.0)
+    time.sleep(30.0)
     worker.poll()
     yield worker
     os.killpg(os.getpgid(worker.pid), signal.SIGTERM)
@@ -56,7 +56,7 @@ def setup_ipfs_daemon():
     cmdline = f"ipfs daemon"
     worker = subprocess.Popen(
         cmdline, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    time.sleep(10.0)
+    time.sleep(30.0)
     worker.poll()
     yield worker
     os.killpg(os.getpgid(worker.pid), signal.SIGTERM)

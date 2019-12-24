@@ -19,8 +19,6 @@ before_install:
   - cd packages/testenv
   - yarn && yarn compile
   - cd ../../..
-  - pwd && ls
-  - echo $TESTENV_FOLDER
 install:
   - travis_retry pip install -e . -r requirements.txt
 script:
