@@ -5,6 +5,9 @@ from erasure.ipfs import (
     upload_bytes_to_ipfs,
     download_bytes_from_ipfs,
 )
+from tests.common import (
+    setup_ipfs_daemon
+)
 
 input_data = "Hello World!\n".encode()
 ipfs_cid = "QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG"
@@ -21,6 +24,6 @@ def test_ipfs_hash():
     assert get_ipfs_hash(input_data) == ipfs_cid
 
 
-def test_upload_download():
+def test_upload_download(setup_ipfs_daemon):
     assert upload_bytes_to_ipfs(input_data) == ipfs_cid
     assert download_bytes_from_ipfs(ipfs_cid) == input_data
