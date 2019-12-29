@@ -1,11 +1,14 @@
 import json
 from hashlib import sha256
+import pytest
 from tests.common import (
     init_erasure_client,
     init_feed,
     raw_data,
     key,
     test_operator,
+    setup_erasure_test_env,
+    setup_ipfs_daemon,
 )
 from erasure.feed import Feed
 from erasure.utils import get_file_contents
@@ -17,16 +20,16 @@ from erasure.ipfs import download_bytes_from_ipfs
 from erasure.post import Post
 
 
-def test_init_feed(init_erasure_client, init_feed):
+def test_init_feed(setup_erasure_test_env, init_erasure_client, init_feed):
     assert init_feed.creator == init_erasure_client.account.address
     assert init_feed.operator == test_operator
 
 
-def test_assert_client_is_connected_to_creator(init_feed):
+def test_assert_client_is_connected_to_creator(setup_erasure_test_env, init_feed):
     init_feed.assert_client_is_connected_to_creator()
 
 
-def test_generate_proof_hash_json(init_feed):
+def test_generate_proof_hash_json(setup_erasure_test_env, init_feed):
     json_proofhash_v120, encrypted_data = init_feed.generate_proof_hash_json(
         raw_data, key)
     dict_proofhash = json.loads(json_proofhash_v120)
@@ -35,7 +38,8 @@ def test_generate_proof_hash_json(init_feed):
     assert dict_proofhash['datahash'] == "12209cbc07c3f991725836a3aa2a581ca2029198aa420b9d99bc0e131d9f3e2cbe47"
 
 
-def test_create_post(init_feed):
+@pytest.mark.xfail(reason='ipfs tests are flaky in travis ci')
+def test_create_post(setup_erasure_test_env, setup_ipfs_daemon, init_feed):
     receipt = init_feed.create_post(raw_data, key=key)
     hash_submitted = init_feed.contract.events.HashSubmitted().processReceipt(receipt)
     proof_hash_hex = init_feed.erasure_client.w3.toHex(

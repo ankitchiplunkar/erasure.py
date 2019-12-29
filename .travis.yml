@@ -1,0 +1,30 @@
+sudo: required
+language: python
+dist: trusty
+env:
+  - TESTENV_FOLDER=erasure-protocol/packages/testenv
+python:
+  - "3.6"
+cache:
+  - pip: true
+before_install:
+  - curl -O https://dist.ipfs.io/go-ipfs/v0.4.22/go-ipfs_v0.4.22_linux-amd64.tar.gz
+  - tar xvfz go-ipfs_v0.4.22_linux-amd64.tar.gz
+  - cd go-ipfs
+  - sudo ./install.sh # install ipfs
+  - cd ..
+  - wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
+  - source ~/.nvm/nvm.sh 
+  - nvm install 11 # installing nvm 11
+  - node --version
+  - npm install -g ganache-cli # install ganache
+  - git clone https://github.com/erasureprotocol/erasure-protocol.git
+  - cd erasure-protocol
+  - git checkout f9a02ccb11e62a7ae78f6b7cc53e234fc13e3ede
+  - cd packages/testenv
+  - yarn && yarn compile # compiling erasure-protocol
+  - cd ../../..
+install:
+  - travis_retry pip install -e . -r requirements.txt
+script:
+  - python -m pytest -vv tests/

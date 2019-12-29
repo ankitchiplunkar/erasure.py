@@ -5,4 +5,3 @@
 **build
 **.pytest_cache
 **.vscode
-release.sh
