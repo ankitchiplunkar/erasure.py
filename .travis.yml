@@ -24,8 +24,6 @@ before_install:
   - cd packages/testenv
   - yarn && yarn compile # compiling erasure-protocol
   - cd ../../..
-  - ipfs help 
-  - pwd && ls
 install:
   - travis_retry pip install -e . -r requirements.txt
 script:

@@ -45,10 +45,10 @@ def setup_erasure_test_env():
     cmdline = f"cd {testenv_folder} && yarn deploy"
     worker = subprocess.Popen(
         cmdline, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    time.sleep(30.0)
+    time.sleep(10)
     worker.poll()
     yield worker
-    os.killpg(os.getpgid(worker.pid), signal.SIGTERM)
+    worker.terminate()
 
 
 @pytest.yield_fixture(scope="session")
@@ -56,7 +56,7 @@ def setup_ipfs_daemon():
     cmdline = f"ipfs daemon"
     worker = subprocess.Popen(
         cmdline, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    time.sleep(30.0)
+    time.sleep(15)
     worker.poll()
     yield worker
-    os.killpg(os.getpgid(worker.pid), signal.SIGTERM)
+    worker.terminate()
