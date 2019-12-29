@@ -1,6 +1,11 @@
 # erasure.py
 Python client for the erasure protocol
 
+![Tests](https://travis-ci.com/ankitchiplunkar/erasure.py.svg?branch=master)
+
+Erasure Protocol version: `1.2.0`
+
+
 ## Setup:
 1. Create & activate virtulenv (python 3.6+)
 2. Install the library using pypi. `pip install erasure`
