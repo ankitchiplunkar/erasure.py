@@ -33,6 +33,7 @@ setup(
         "requests==2.22.0",
         "pymultihash==0.8.2",
         "pytest==5.3.1",
+        "pytest-cov==2.8.1",
         "ipfshttpclient==0.4.12",
       ],
     classifiers=[
