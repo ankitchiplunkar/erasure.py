@@ -1,3 +1,4 @@
+import pytest
 from tests.common import (
     init_feed,
     init_erasure_client,
@@ -11,6 +12,7 @@ from erasure.ipfs import download_bytes_from_ipfs
 from erasure.crypto import Symmetric
 
 
+@pytest.mark.xfail(reason='ipfs tests are flaky in travis ci')
 def test_reveal(setup_erasure_test_env, setup_ipfs_daemon, init_feed):
     receipt = init_feed.create_post(raw_data, key=key)
     hash_submitted = init_feed.contract.events.HashSubmitted().processReceipt(receipt)

@@ -1,5 +1,6 @@
 import json
 from hashlib import sha256
+import pytest
 from tests.common import (
     init_erasure_client,
     init_feed,
@@ -37,6 +38,7 @@ def test_generate_proof_hash_json(setup_erasure_test_env, init_feed):
     assert dict_proofhash['datahash'] == "12209cbc07c3f991725836a3aa2a581ca2029198aa420b9d99bc0e131d9f3e2cbe47"
 
 
+@pytest.mark.xfail(reason='ipfs tests are flaky in travis ci')
 def test_create_post(setup_erasure_test_env, setup_ipfs_daemon, init_feed):
     receipt = init_feed.create_post(raw_data, key=key)
     hash_submitted = init_feed.contract.events.HashSubmitted().processReceipt(receipt)
