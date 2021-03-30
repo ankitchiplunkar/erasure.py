@@ -29,7 +29,7 @@ setup(
     packages=find_packages(exclude=["tests", "tests.*"]),
     install_requires=[
         "web3==5.3.0",
-        "cryptography==2.8",
+        "cryptography==3.2",
         "requests==2.22.0",
         "pymultihash==0.8.2",
         "pytest==5.3.1",
